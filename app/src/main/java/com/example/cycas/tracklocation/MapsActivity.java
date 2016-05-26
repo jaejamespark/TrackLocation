@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -33,7 +35,7 @@ public class MapsActivity extends FragmentActivity implements
     protected GoogleApiClient mGoogleApiClient;
     private Location mLocation;
     private LatLng mLatLng;
-
+    private LocationRequest mLocationRequest;
     private static int MY_PERMISSIONS_REQUEST_LOCATION_COARSE = 1;
 
 
@@ -48,6 +50,9 @@ public class MapsActivity extends FragmentActivity implements
         mapFragment.getMapAsync(this);
 
         googleApiClient();
+        createLocationRequest();
+        locationSettings();
+
 
         latitude_label = (TextView) findViewById(R.id.latitude_label);
         longitude_label = (TextView) findViewById(R.id.longitude_label);
@@ -169,6 +174,18 @@ public class MapsActivity extends FragmentActivity implements
         mMap = googleMap;
     }
 
+
+    protected void createLocationRequest() {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(10000);
+        mLocationRequest.setFastestInterval(5000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+
+    protected void locationSettings() {
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(mLocationRequest);
+    }
 
     protected void googleApiClient() {
         // Create an instance of GoogleAPIClient.
