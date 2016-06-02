@@ -50,8 +50,8 @@ public class MapsActivity extends FragmentActivity implements
         createLocationRequest();
         locationSettings();
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().
+                findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         latitude_label = (TextView) findViewById(R.id.latitude_label);
@@ -96,7 +96,6 @@ public class MapsActivity extends FragmentActivity implements
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-
                     Bundle bundle = null;
                     onConnected(bundle);
 
