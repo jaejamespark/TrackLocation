@@ -5,4 +5,7 @@
 
     <string name="latitude_label">Latitude: </string>
     <string name="longitude_label">Longitude: </string>
+
+    <string name="updateTime_label">Updated Time: </string>
+    <string name="location_switch">Current location update</string>
 </resources>
