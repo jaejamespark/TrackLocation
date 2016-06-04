@@ -2,6 +2,8 @@ package com.example.cycas.tracklocation;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.location.Location;
 import android.support.annotation.NonNull;
@@ -29,6 +31,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -102,6 +106,8 @@ public class MapsActivity extends FragmentActivity implements
                 }
             }
         });
+
+
     }
 
     protected void onStart() {
@@ -232,6 +238,7 @@ public class MapsActivity extends FragmentActivity implements
 
     public void drawOnMap() {
         // Add a marker in Sydney and move the camera
+        //mMap.addMarker(new MarkerOptions().position(mLatLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_action_name)).title("I'm here"));
         mMap.addMarker(new MarkerOptions().position(mLatLng).title("I'm here"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 15));
     }
