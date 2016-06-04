@@ -2,6 +2,7 @@ package com.example.cycas.tracklocation;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -30,6 +31,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.w3c.dom.Text;
 
@@ -58,9 +61,11 @@ public class MapsActivity extends FragmentActivity implements
     private LocationRequest mLocationRequest;
     private LatLng mLatLng;
     private String mLastUpdateTime;
+    private Polyline line;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 1;
 
     private ArrayList<String> latLngArrList = new ArrayList<String>();
+    private ArrayList<LatLng> latLngPolyArrList = new ArrayList<LatLng>();
 
 
 
@@ -143,6 +148,7 @@ public class MapsActivity extends FragmentActivity implements
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
         handleLocationUpdate();
         saveLatLng();
+        drawOnMap();
     }
 
     protected void stopLocationUpdates() {
@@ -200,24 +206,34 @@ public class MapsActivity extends FragmentActivity implements
         longitude_value.setText(String.valueOf(mLatLng.longitude));
         updateTime_value.setText(mLastUpdateTime);
 
-        // Add a marker in Sydney and move the camera
-        mMap.addMarker(new MarkerOptions().position(mLatLng).title("I'm here"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 15));
     }
 
     public void saveLatLng() {
-
+        // add LatLng to arraylist
         mLatLng = new LatLng(mLocation.getLatitude(), mLocation.getLongitude());
-        String latLng = mLastUpdateTime + " Lat: " + String.valueOf(mLatLng.latitude) + " Lng: " + String.valueOf(mLatLng.longitude);
+        latLngPolyArrList.add(mLatLng);
 
+        // add LatLng String to arraylist
+        String latLng = mLastUpdateTime + " Lat: " + String.valueOf(mLatLng.latitude) + " Lng: " + String.valueOf(mLatLng.longitude);
         latLngArrList.add(latLng);
 
+        //add LatLng to polyline
+       // if(latLngPolyArrList.size() >1)
+            line = mMap.addPolyline(new PolylineOptions().addAll(latLngPolyArrList).width(10).color(Color.BLUE));
+
+
+        // add to listview
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.activity_list_item, android.R.id.text1, latLngArrList);
 
         listView.setAdapter(adapter);
         listView.deferNotifyDataSetChanged();
+    }
 
+    public void drawOnMap() {
+        // Add a marker in Sydney and move the camera
+        mMap.addMarker(new MarkerOptions().position(mLatLng).title("I'm here"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 15));
     }
 
     @Override
